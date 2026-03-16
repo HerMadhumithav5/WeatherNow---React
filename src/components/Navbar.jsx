@@ -1,10 +1,21 @@
 // components/Navbar.jsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Function to check if current path matches
+  const isActive = (path) => {
+    // Handle forecast path with query params
+    if (path.includes('?')) {
+      const basePath = path.split('?')[0];
+      return location.pathname === basePath;
+    }
+    return location.pathname === path;
+  };
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -22,33 +33,43 @@ const Navbar = () => {
     <>
       <nav className="fixed top-0 left-0 w-full px-4 md:px-10 py-3.5 flex justify-between items-center bg-black/40 backdrop-blur-md border-b border-white/20 z-50">
         <div 
-          className="logo font-bold text-xl cursor-pointer"
+          className="logo font-bold text-xl cursor-pointer hover:text-yellow-400 transition-colors"
           onClick={() => navigate('/')}
         >
           ☁ Weather<span className="text-yellow-400">Now</span>
         </div>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation with Active Indicators */}
         <ul className="hidden md:flex gap-6 list-none">
           {navItems.map((item) => (
             <li 
               key={item.name}
-              className="cursor-pointer text-gray-300 hover:text-yellow-400 transition-colors"
+              className={`cursor-pointer transition-colors relative group ${
+                isActive(item.path) 
+                  ? 'text-yellow-400 font-medium' 
+                  : 'text-gray-300 hover:text-yellow-400'
+              }`}
               onClick={() => navigate(item.path)}
             >
               {item.name}
+              {/* Active Indicator Line */}
+              {isActive(item.path) && (
+                <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-yellow-400 rounded-full"></span>
+              )}
+              {/* Hover Indicator Line */}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 rounded-full transition-all duration-300 group-hover:w-full"></span>
             </li>
           ))}
         </ul>
 
         <div className="flex items-center gap-2.5">
-          {/* ONLY Maps/Location Button - No toggle */}
+          {/* Maps/Location Button */}
           <button 
-            className="w-9 h-9 rounded-full bg-white/10 text-gray-300 hover:text-yellow-400 hover:bg-white/20 transition-all flex items-center justify-center"
+            className="w-9 h-9 rounded-full bg-white/10 text-gray-300 hover:text-yellow-400 hover:bg-white/20 transition-all flex items-center justify-center group relative"
             onClick={openGoogleMaps}
             title="Open in Google Maps"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
@@ -59,14 +80,14 @@ const Navbar = () => {
             className="md:hidden w-9 h-9 flex flex-col justify-center items-center gap-1.5 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            <span className="w-5 h-0.5 bg-white"></span>
-            <span className="w-5 h-0.5 bg-white"></span>
-            <span className="w-5 h-0.5 bg-white"></span>
+            <span className={`w-5 h-0.5 bg-white transition-transform ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+            <span className={`w-5 h-0.5 bg-white transition-opacity ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
+            <span className={`w-5 h-0.5 bg-white transition-transform ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
           </button>
         </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu with Active Indicators */}
       {mobileMenuOpen && (
         <>
           <div 
@@ -76,12 +97,12 @@ const Navbar = () => {
           <div className="fixed top-0 right-0 w-64 h-full bg-[#0b1120] z-50 p-6 shadow-lg md:hidden">
             <button 
               onClick={() => setMobileMenuOpen(false)}
-              className="absolute top-4 right-4 text-white text-2xl hover:text-yellow-400"
+              className="absolute top-4 right-4 text-white text-2xl hover:text-yellow-400 transition-colors"
             >
               ✕
             </button>
             
-            <ul className="mt-12 space-y-4">
+            <ul className="mt-12 space-y-2">
               {navItems.map((item) => (
                 <li key={item.name}>
                   <button
@@ -89,7 +110,11 @@ const Navbar = () => {
                       navigate(item.path);
                       setMobileMenuOpen(false);
                     }}
-                    className="text-white hover:text-yellow-400 transition-colors w-full text-left py-2 text-lg"
+                    className={`w-full text-left py-3 px-4 rounded-lg transition-all ${
+                      isActive(item.path)
+                        ? 'bg-yellow-400/10 text-yellow-400 font-medium border-l-4 border-yellow-400'
+                        : 'text-white hover:bg-white/10 hover:text-yellow-400'
+                    }`}
                   >
                     {item.name}
                   </button>
@@ -102,7 +127,7 @@ const Navbar = () => {
                     openGoogleMaps();
                     setMobileMenuOpen(false);
                   }}
-                  className="text-white hover:text-yellow-400 transition-colors w-full text-left py-2 text-lg flex items-center gap-2"
+                  className="text-white hover:text-yellow-400 transition-colors w-full text-left py-3 px-4 rounded-lg hover:bg-white/10 flex items-center gap-3"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
