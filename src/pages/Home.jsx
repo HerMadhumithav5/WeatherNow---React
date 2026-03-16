@@ -19,7 +19,7 @@ function Home() {
         <div className="absolute inset-0 bg-black/70"></div>
         
         <div className="relative max-w-[500px] mx-4 md:mx-20 lg:mx-24 my-10 md:my-20 p-6 md:p-8 bg-white/5 backdrop-blur-md rounded-2xl">
-          <p className="text-yellow-400 text-xs mb-2">AI POWERED FORECAST</p>
+          {/* Removed AI POWERED FORECAST text */}
           <h1 className="text-white text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
             Weather Intelligence
             <span className="text-yellow-400"> for the Future</span>
@@ -39,7 +39,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Weather Dashboard */}
+      {/* Weather Dashboard - Modified version without Today's Pulse, Cities Covered, Users */}
       <WeatherDashboard />
 
       {/* CTA Section */}
