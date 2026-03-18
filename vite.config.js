@@ -3,5 +3,6 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  assetsInclude: ['**/*.JSX'], // Add this line
+  assetsInclude: ['**/*.JSX'],
+  base: '/WeatherNow---React/', // Make sure this matches your repo name EXACTLY
 })

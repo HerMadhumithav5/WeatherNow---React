@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>WeatherNow</title>
+    <script type="text/javascript">
+      // This handles client-side routing for GitHub Pages
+      const repoName = 'WeatherNow---React';
+      const path = location.pathname;
+      
+      // Store the current path if it's not the root
+      if (path.includes(repoName) && !path.endsWith('index.html')) {
+        const route = path.split(repoName)[1] || '/';
+        sessionStorage.setItem('reactRoute', route);
+      }
+      
+      // Redirect to index.html
+      window.location.replace('/' + repoName + '/index.html');
+    </script>
+  </head>
+  <body>
+    <h1>Redirecting...</h1>
+  </body>
+</html>

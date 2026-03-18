@@ -16,10 +16,6 @@ const WeatherDashboard = () => {
     { name: 'Dubai', temp: 32, condition: 'Hot', icon: Thermometer, high: 36, low: 28 }
   ];
 
-  const handleCityClick = (cityName) => {
-    navigate('/search', { state: { city: cityName } });
-  };
-
   return (
     <section className="bg-[#030712] py-16 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
@@ -38,7 +34,6 @@ const WeatherDashboard = () => {
           {featuredCities.map((city, index) => (
             <div 
               key={index}
-              onClick={() => handleCityClick(city.name)}
               className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-800 hover:border-yellow-400/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-yellow-400/10 cursor-pointer"
             >
               <div className="flex justify-between items-start mb-4">
