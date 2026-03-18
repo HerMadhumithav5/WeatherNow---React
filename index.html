@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/WeatherNow---React/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>weathernow</title>
+    
+    <!-- Add this script for GitHub Pages routing -->
+    <script>
+      (function() {
+        // Your GitHub repo name - make sure it matches exactly
+        const repoName = 'WeatherNow---React';
+        
+        // Check if we have a saved route from 404.html
+        const savedRoute = sessionStorage.getItem('reactRoute');
+        
+        if (savedRoute && savedRoute !== '/') {
+          // Clear the saved route
+          sessionStorage.removeItem('reactRoute');
+          
+          // Update the URL without reloading the page
+          const newUrl = window.location.origin + '/' + repoName + savedRoute;
+          history.replaceState(null, null, newUrl);
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/WeatherNow---React/assets/index-CQX2Jp5-.js"></script>
+    <link rel="stylesheet" crossorigin href="/WeatherNow---React/assets/index-BM8STIVT.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
